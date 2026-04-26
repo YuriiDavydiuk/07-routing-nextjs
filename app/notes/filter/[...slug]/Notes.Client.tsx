@@ -5,6 +5,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { getNotes } from '@/lib/api';
+
 import css from './NotesPage.module.css';
 
 import Modal from '@/components/Modal/Modal';
