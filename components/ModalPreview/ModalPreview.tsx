@@ -15,7 +15,7 @@ export default function ModalPreview({ children, btnClassName }: Props) {
 
   return (
     <div className={css.backdrop} onClick={close}>
-      <div className={css.modal}>
+      <div className={css.modal} onClick={e => e.stopPropagation()}>
         {children}
         <button className={btnClassName} onClick={close}>
           Close
