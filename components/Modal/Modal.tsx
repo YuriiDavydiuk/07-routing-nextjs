@@ -1,39 +1,19 @@
-import { createPortal } from 'react-dom';
-import css from './Modal.module.css';
-import { useEffect } from 'react';
+'use client';
 
-interface ModalProps {
-  onClose: () => void;
+import css from '../ModalCreate/Modal.module.css'; //
+
+interface Props {
   children: React.ReactNode;
+  onClose: () => void;
 }
 
-export default function Modal({ onClose, children }: ModalProps) {
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
-  useEffect(() => {
-    const handleEscapeClick = (e: KeyboardEvent) => {
-      if (e.code === 'Escape') {
-        onClose();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscapeClick);
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.removeEventListener('keydown', handleEscapeClick);
-      document.body.style.overflow = '';
-    };
-  }, [onClose]);
-
-  return createPortal(
-    <div className={css.backdrop} role="dialog" aria-modal="true" onClick={handleBackdropClick}>
-      <div className={css.modal}>{children}</div>
-    </div>,
-    document.body
+export default function Modal({ children, onClose }: Props) {
+  return (
+    <div className={css.backdrop} onClick={onClose}>
+      <div className={css.modal} onClick={e => e.stopPropagation()}>
+        {children}
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
   );
 }

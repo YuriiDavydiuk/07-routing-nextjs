@@ -8,7 +8,7 @@ import { getNotes } from '@/lib/api';
 
 import css from './NotesPage.module.css';
 
-import Modal from '@/components/Modal/Modal';
+import Modal from '@/components/ModalCreate/ModalCreate';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import NoteList from '@/components/NoteList/NoteList';
 import Pagination from '@/components/Pagination/Pagination';
