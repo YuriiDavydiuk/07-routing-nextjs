@@ -15,7 +15,11 @@ import SearchBox from '@/components/SearchBox/SearchBox';
 import Loader from '@/components/Loader/Loader';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 
-export default function NotesClient() {
+interface NoteClientProps {
+  tag: string;
+}
+
+export default function NotesClient({ tag }: NoteClientProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -26,8 +30,8 @@ export default function NotesClient() {
   }, 300);
 
   const { data, isLoading, isError, isSuccess } = useQuery({
-    queryKey: ['notes', currentPage, searchQuery],
-    queryFn: () => getNotes(currentPage, searchQuery),
+    queryKey: ['notes', currentPage, searchQuery, tag],
+    queryFn: () => getNotes(currentPage, searchQuery, tag),
     placeholderData: keepPreviousData,
   });
 
