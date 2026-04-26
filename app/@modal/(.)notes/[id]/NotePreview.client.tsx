@@ -12,15 +12,20 @@ interface Props {
 
 export default function NotePreview({ id }: Props) {
   const router = useRouter();
-  const { data: note, isLoading } = useQuery({
+  const {
+    data: note,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
+    refetchOnMount: false,
   });
 
   const handleClose = () => router.back();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!note) return null;
+  if (isLoading) return <p>Loading, please wait...</p>;
+  if (isError || !note) return <p>Something went wrong.</p>;
 
   return (
     <ModalPreview onClose={handleClose}>
