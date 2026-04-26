@@ -1,17 +1,29 @@
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { fetchNoteById } from '../../../../lib/api';
 import css from './NotePreview.module.css';
 import ModalPreview from '@/components/ModalPreview/ModalPreview';
 
 interface Props {
-  params: Promise<{ id: string }>;
+  id: string;
 }
 
-export default async function NotePreview({ params }: Props) {
-  const { id } = await params;
-  const note = await fetchNoteById(id);
+export default function NotePreview({ id }: Props) {
+  const router = useRouter();
+  const { data: note, isLoading } = useQuery({
+    queryKey: ['note', id],
+    queryFn: () => fetchNoteById(id),
+  });
+
+  const handleClose = () => router.back();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (!note) return null;
 
   return (
-    <ModalPreview btnClassName={css.backBtn}>
+    <ModalPreview onClose={handleClose}>
       <div className={css.container}>
         <div className={css.item}>
           <div className={css.header}>
